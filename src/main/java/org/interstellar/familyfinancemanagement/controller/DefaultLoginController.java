@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/default-user/")
 @CrossOrigin(originPatterns = "*", methods = {RequestMethod.GET, RequestMethod.POST})
-public class LoginController {
+public class DefaultLoginController {
 
     // 测试登录，浏览器访问： http://192.168.188.8:8080/login?username=1&password=1
     @GetMapping("login")

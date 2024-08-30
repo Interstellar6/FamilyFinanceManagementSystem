@@ -1,4 +1,4 @@
-package org.interstellar.familyfinancemanagement.dao;
+package org.interstellar.familyfinancemanagement.entity;
 
 import lombok.Data;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -13,8 +13,11 @@ import java.util.Date;
 public class Income {
     @TableId(value = "income_id", type = IdType.AUTO)
     private Integer incomeId;
+    private Integer familyId;
     private Integer memberId;
-    private BigDecimal amount;
-    private String source;
+    private Long amount;
+    private String category;
     private Date incomeDate;
+
+
 }

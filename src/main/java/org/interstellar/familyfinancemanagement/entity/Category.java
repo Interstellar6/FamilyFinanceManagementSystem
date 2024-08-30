@@ -1,10 +1,13 @@
-package org.interstellar.familyfinancemanagement.dao;
+package org.interstellar.familyfinancemanagement.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+/**
+ * @author interstellar
+ */
 // 收支分类实体类
 @Data
 @TableName("category")

@@ -1,4 +1,4 @@
-package org.interstellar.familyfinancemanagement.entity.entity;
+package org.interstellar.familyfinancemanagement.entity.UserLogin;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import java.util.Date;
 @Data
 public class UserSessionResponse {
     private String token;
-    private String userId;
+    private Integer userId;
     private String username;
     private Date date;
     private int status;
@@ -20,7 +20,7 @@ public class UserSessionResponse {
         sdf.applyPattern("yyyy-MM-dd HH:mm:ss a");
     }
 
-    public UserSessionResponse(String token, String userId, String username,int status, boolean isAdmin,String description) {
+    public UserSessionResponse(String token, Integer userId, String username,int status, boolean isAdmin,String description) {
         this.token = token;
         this.userId = userId;
         this.username = username;
@@ -30,7 +30,7 @@ public class UserSessionResponse {
         this.description = description;
     }
 
-    public UserSessionResponse(String token, String userId, String username, boolean isAdmin) {
+    public UserSessionResponse(String token, Integer userId, String username, boolean isAdmin) {
         this.token = token;
         this.userId = userId;
         this.username = username;

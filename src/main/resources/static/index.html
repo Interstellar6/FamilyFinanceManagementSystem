@@ -1,10 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <title>User Management</title>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
+<div id="app">
+  <!-- 登录表单 -->
+  <h2>Login</h2>
+  <form @submit.prevent="login">
+    <input v-model="loginForm.username" type="text" placeholder="Username" />
+    <input v-model="loginForm.password" type="password" placeholder="Password" />
+    <button type="submit">Login</button>
+  </form>
 
+  <!-- 注册表单 -->
+  <h2>Register</h2>
+  <form @submit.prevent="register">
+    <input v-model="registerForm.username" type="text" placeholder="Username" />
+    <input v-model="registerForm.password" type="password" placeholder="Password" />
+    <input v-model="registerForm.isAdmin" type="checkbox" id="isAdmin" />
+    <label for="isAdmin">Is Admin</label>
+    <button type="submit">Register</button>
+  </form>
+
+  <!-- 用户列表 -->
+  <h2>Users</h2>
+  <ul>
+    <li v-for="user in users" :key="user.id">
+      {{ user.username }} ({{ user.isAdmin ? 'Admin' : 'User' }})
+      <button @click="deleteUser(user.id)">Delete</button>
+    </li>
+  </ul>
+
+  <!-- 添加用户表单 -->
+  <h2>Add User</h2>
+  <form @submit.prevent="addUser">
+    <input v-model="newUser.username" type="text" placeholder="Username" />
+    <input v-model="newUser.password" type="password" placeholder="Password" />
+    <input v-model="newUser.isAdmin" type="checkbox" id="newIsAdmin" />
+    <label for="newIsAdmin">Is Admin</label>
+    <button type="submit">Add</button>
+  </form>
+</div>
+
+<script>
+  const { createApp, reactive, toRefs } = Vue;
+
+  createApp({
+    setup() {
+      const state = reactive({
+        loginForm: {
+          username: '',
+          password: ''
+        },
+        registerForm: {
+          username: '',
+          password: '',
+          isAdmin: false
+        },
+        users: [],
+        newUser: {
+          username: '',
+          password: '',
+          isAdmin: false
+        }
+      });
+
+      const methods = {
+        async login() {
+          const response = await axios.post('/user/login', {
+            username: state.loginForm.username,
+            password: state.loginForm.password
+          });
+          console.log(response.data);
+        },
+        async register() {
+          const response = await axios.post('/user/register', {
+            username: state.registerForm.username,
+            password: state.registerForm.password,
+            isAdmin: state.registerForm.isAdmin
+          });
+          console.log(response.data);
+        },
+        async getAllUsers() {
+          const response = await axios.get('/user/get-user');
+          state.users = response.data;
+        },
+        async addUser() {
+          const response = await axios.post('/user/add', state.newUser);
+          if (response.data) {
+            state.users.push(state.newUser);
+            state.newUser = { username: '', password: '', isAdmin: false };
+          }
+        },
+        async deleteUser(userId) {
+          const response = await axios.post(`/user/delete?userId=${userId}`);
+          if (response.data) {
+            state.users = state.users.filter(user => user.id !== userId);
+          }
+        }
+      };
+
+      // 调用 getAllUsers 在组件创建时获取用户列表
+      onMounted(() => {
+        methods.getAllUsers();
+      });
+
+      return {
+        ...toRefs(state),
+        ...methods
+      };
+    }
+  }).mount('#app');
+</script>
 </body>
 </html>

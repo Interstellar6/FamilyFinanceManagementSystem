@@ -1,4 +1,4 @@
-package org.interstellar.familyfinancemanagement;
+package org.interstellar.familyfinancemanagement.service;
 
 import org.interstellar.familyfinancemanagement.entity.Expense;
 

@@ -1,0 +1,71 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class asset {
+   category: varchar(64)
+   description: varchar(255)
+   value: decimal(10,2)
+   member_id: int
+   acquisition_date: date
+   family_id: int
+   asset_id: int
+}
+class category {
+   name: varchar(64)
+   parent_category_id: int
+   category_id: int
+}
+class expense {
+   member_id: int
+   category: varchar(64)
+   amount: decimal(10,2)
+   description: varchar(255)
+   expense_date: date
+   family_id: int
+   expense_id: int
+}
+class family {
+   num: int
+   family_name: varchar(64)
+   activate_code: varchar(255)
+   description: text
+   family_id: int
+}
+class family_member {
+   name: varchar(64)
+   relation: varchar(64)
+   birth_date: date
+   family_id: int
+   member_id: int
+}
+class income {
+   member_id: int
+   amount: decimal(10,2)
+   category: varchar(64)
+   income_date: date
+   family_id: int
+   income_id: int
+}
+class user {
+   username: varchar(64)
+   password: varchar(255)
+   is_admin: tinyint(1)
+   family_member_id: int
+   user_id: int
+}
+
+asset          -[#595959,plain]-^  category      : "category:name"
+asset          -[#595959,plain]-^  family        : "family_id"
+asset          -[#595959,plain]-^  family_member : "member_id"
+category       -[#595959,plain]-^  category      : "parent_category_id:category_id"
+expense        -[#595959,plain]-^  family        : "family_id"
+expense        -[#595959,plain]-^  family_member : "member_id"
+family_member  -[#595959,plain]-^  family        : "family_id"
+income         -[#595959,plain]-^  category      : "category:name"
+income         -[#595959,plain]-^  family        : "family_id"
+income         -[#595959,plain]-^  family_member : "member_id"
+user           -[#595959,plain]-^  family_member : "family_member_id:member_id"
+@enduml

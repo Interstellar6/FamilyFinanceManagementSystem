@@ -1,4 +1,4 @@
-package org.interstellar.familyfinancemanagement.dao;
+package org.interstellar.familyfinancemanagement.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -13,6 +13,7 @@ import java.util.Date;
 public class FamilyMember {
     @TableId(value = "member_id", type = IdType.AUTO)
     private Integer memberId;
+    private Integer familyId;
     private String name;
     private String relation;
     private Date birthDate;
